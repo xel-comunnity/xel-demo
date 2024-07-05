@@ -17,6 +17,19 @@ $server->on("start", function () {
 });
 
 $server->on("request", function (Request $request, Response $response) {
+
+    // Add CORS headers
+    $response->header("Access-Control-Allow-Origin", "*");
+    $response->header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    $response->header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+
+    // Handle preflight requests
+    if ($request->server['request_method'] == 'OPTIONS') {
+        $response->status(204);
+        return;
+    }
+
+
     // ? path display file
     $pathDisplay = __DIR__."/src/display/";
 
@@ -53,7 +66,7 @@ $server->on("request", function (Request $request, Response $response) {
                 shell_exec($command1);
             });
             
-            go(function() use ($outputExpress) {
+            defer(function() use ($outputExpress) {
                 $command2 = "wrk -t4 -c1000 -d15s -s wrk_script.lua http://localhost:4000/users | tee $outputExpress";
                 shell_exec($command2);
             });
@@ -109,7 +122,7 @@ $server->on("request", function (Request $request, Response $response) {
                 shell_exec($command1);
             });
             
-            go(function() use ($outputExpress) {
+            defer(function() use ($outputExpress) {
                 $command2 = "wrk -t1 -c1000 -d15s -s wrk_script.lua http://localhost:4000/users | tee $outputExpress";
                 shell_exec($command2);
             });
