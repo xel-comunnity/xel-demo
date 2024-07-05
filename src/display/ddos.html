@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XEL Framework DDoS Protection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <nav class="bg-gray-800 fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="/" class="text-white text-2xl font-bold">XEL</a>
+                <a href="/" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Back to Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8 pt-20">
+        <h1 class="text-4xl font-bold mb-8 text-center text-blue-400 animate-fade-in">XEL Framework DDoS Protection</h1>
+
+        <section class="mb-12 animate-fade-in" style="animation-delay: 0.2s;">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400">Introduction to DDoS Attacks</h2>
+            <p class="text-gray-300 mb-4">
+                A Distributed Denial of Service (DDoS) attack is a malicious attempt to disrupt the normal traffic of a targeted server, service or network by overwhelming the target or its surrounding infrastructure with a flood of Internet traffic.
+            </p>
+        </section>
+
+        <section class="mb-12 animate-fade-in" style="animation-delay: 0.4s;">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400">XEL Framework's Approach to DDoS Protection</h2>
+            <div class="bg-gray-800 p-4 rounded-lg mb-4">
+                <h3 class="text-xl font-bold mb-2 text-blue-400">1. Layer 3 Flood Mitigation:</h3>
+                <p class="text-gray-300 mb-2">
+                    The XEL framework focuses on reducing the impact of flooding mechanisms at access layer 3, effectively handling small to medium scale DDoS attacks.
+                </p>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg mb-4">
+                <h3 class="text-xl font-bold mb-2 text-blue-400">2. Connection Processing Strategy:</h3>
+                <p class="text-gray-300 mb-2">
+                    Implements a 2/3 accept, 1/3 wait connection processing strategy to balance between handling new connections and processing existing ones.
+                </p>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg">
+                <h3 class="text-xl font-bold mb-2 text-blue-400">3. TCP Connection Limiting:</h3>
+                <p class="text-gray-300 mb-2">
+                    Employs TCP connection limiting for concurrent connections, reducing overall attack volume and maintaining server stability.
+                </p>
+            </div>
+        </section>
+
+        <div class="container mx-auto px-4 py-8">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400 animate-fade-in" style="animation-delay: 0.8s;">Try DDOS Demo</h2>
+            <button id="runBenchmark" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-4 animate-fade-in" style="animation-delay: 1s;">
+                Run DDOS Attack
+            </button>
+            <div id="loading" class="hidden animate-fade-in" style="animation-delay: 1.2s;">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                <p class="mt-2 text-blue-300">Running DDOS...</p>
+            </div>
+            <div id="results" class="hidden">
+                <div id="overview" class="animate-fade-in" style="animation-delay: 1.6s;">
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="bg-gray-800 shadow rounded-lg p-4">
+                            <div id="xelOverview"></div>
+                        </div>
+                        <div class="bg-gray-800 shadow rounded-lg p-4">
+                            <div id="expressOverview"></div>
+                        </div>
+                    </div>
+                    <div id="winner" class="mt-4 text-center text-2xl font-bold"></div>
+                    
+                    <!-- Insert the new chart containers here -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                        <div>
+                            <canvas id="requestsPieChart"></canvas>
+                        </div>
+                        <div>
+                            <canvas id="latencyChart"></canvas>
+                        </div>
+                    </div>
+                    <!-- End of new chart containers -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 text-center py-4 mt-12">
+        <p class="text-gray-300">© 2024 XEL Library. All rights reserved.</p>
+    </footer>
+
+    <script>
+      document.getElementById('runBenchmark').addEventListener('click', function() {
+    this.disabled = true;
+    document.getElementById('loading').classList.remove('hidden');
+    document.getElementById('results').classList.add('hidden');
+    
+    fetch('http://localhost:9502/run-ddos')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Received data:', data);  // Debug: Log received data
+            this.disabled = false;
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+            displayResults(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            this.disabled = false;
+            document.getElementById('loading').classList.add('hidden');
+            alert('An error occurred while running the benchmark.');
+        });
+});
+
+function displayResults(data) {
+    const xelOverview = document.getElementById('xelOverview');
+    const expressOverview = document.getElementById('expressOverview');
+
+    xelOverview.innerHTML = `
+        <h4 class="text-xl font-bold text-blue-400 mb-2">XEL Framework Performance</h4>
+        <p class="text-md text-gray-300 mb-2">Server Speed: ${data.xel.requests_per_sec.toFixed(0)} requests per second</p>
+        <p class="text-md text-gray-300 mb-2">Total Handled: ${data.xel.requests.toLocaleString()} requests</p>
+        <p class="text-md text-gray-300 mb-2">Response Time: ${(data.xel.latency_mean / 1000).toFixed(2)} milliseconds</p>
+        <p class="text-md font-semibold text-yellow-400 mt-2">DDoS Impact: ${assessDDoSImpact(data.xel)}</p>
+    `;
+
+    expressOverview.innerHTML = `
+        <h4 class="text-xl font-bold text-green-400 mb-2">Express.js Performance</h4>
+        <p class="text-md text-gray-300 mb-2">Server Speed: ${data.express.requests_per_sec.toFixed(0)} requests per second</p>
+        <p class="text-md text-gray-300 mb-2">Total Handled: ${data.express.requests.toLocaleString()} requests</p>
+        <p class="text-md text-gray-300 mb-2">Response Time: ${(data.express.latency_mean / 1000).toFixed(2)} milliseconds</p>
+        <p class="text-md font-semibold text-yellow-400 mt-2">DDoS Impact: ${assessDDoSImpact(data.express)}</p>
+    `;
+
+    const winner = determineWinner(data);
+    document.getElementById('winner').innerHTML = `
+        <h3 class="text-2xl font-bold text-${winner.color}-400 mb-2">Test Result: ${winner.framework} Performed Better</h3>
+        <p class="text-lg text-gray-300">${winner.conclusion}</p>
+    `;
+
+    // Ensure the canvas elements exist before creating charts
+    if (document.getElementById('requestsPieChart') && document.getElementById('latencyChart')) {
+        setTimeout(() => {
+            createPieChart(data);
+            createBarChart(data);
+        }, 100);  // Slight delay to ensure DOM is ready
+    } else {
+        console.error('Chart canvas elements not found');
+    }
+
+    // Add explanations
+    document.getElementById('results').innerHTML += `
+        <div class="mt-8 text-gray-300">
+            <p class="mb-4"><strong>Pie Chart Explanation:</strong> This chart shows the total number of requests each framework handled during the simulated attack. A larger slice means the framework processed more requests, indicating better performance under heavy traffic.</p>
+            <p><strong>Bar Chart Explanation:</strong> This chart compares how quickly each framework responded to requests during the attack. Lower bars are better, meaning faster response times. The different groups (50%, 75%, 90%, 99%) show response times for different portions of the total requests, helping us understand overall performance and consistency.</p>
+        </div>
+    `;
+}
+
+function assessDDoSImpact(frameworkData) {
+    const rps = frameworkData.requests_per_sec;
+    const latency = frameworkData.latency_mean / 1000; // Convert to ms
+
+    if (rps > 5000 && latency < 10) {
+        return "Excellent defense. The server handled the attack with minimal slowdown.";
+    } else if (rps > 2000 && latency < 50) {
+        return "Good defense. The server managed the attack well with only slight performance impact.";
+    } else if (rps > 1000 && latency < 100) {
+        return "Fair defense. The server handled the attack but showed noticeable slowdown.";
+    } else {
+        return "Weak defense. The server struggled to handle the attack, showing significant slowdown.";
+    }
+}
+
+function determineWinner(data) {
+    let xelScore = 0;
+    let expressScore = 0;
+
+    // Compare RPS
+    if (data.xel.requests_per_sec > data.express.requests_per_sec) {
+        xelScore += 2;
+    } else {
+        expressScore += 2;
+    }
+
+    // Compare mean latency (lower is better)
+    if (data.xel.latency_mean < data.express.latency_mean) {
+        xelScore += 2;
+    } else {
+        expressScore += 2;
+    }
+
+    // Compare total requests
+    if (data.xel.requests > data.express.requests) {
+        xelScore++;
+    } else {
+        expressScore++;
+    }
+
+    let winner, conclusion;
+
+    if (xelScore > expressScore) {
+        winner = { framework: 'XEL', color: 'blue' };
+        conclusion = `The XEL Framework handled the simulated attack better. It processed ${((data.xel.requests_per_sec - data.express.requests_per_sec) / data.express.requests_per_sec * 100).toFixed(0)}% more requests per second and responded ${((data.express.latency_mean - data.xel.latency_mean) / data.express.latency_mean * 100).toFixed(0)}% faster compared to Express.js.`;
+    } else if (expressScore > xelScore) {
+        winner = { framework: 'Express.js', color: 'green' };
+        conclusion = `Express.js handled the simulated attack better. It processed ${((data.express.requests_per_sec - data.xel.requests_per_sec) / data.xel.requests_per_sec * 100).toFixed(0)}% more requests per second and responded ${((data.xel.latency_mean - data.express.latency_mean) / data.xel.latency_mean * 100).toFixed(0)}% faster compared to the XEL Framework.`;
+    } else {
+        winner = { framework: 'Tie', color: 'yellow' };
+        conclusion = 'Both frameworks performed similarly under the simulated attack, with no clear advantage in handling the increased traffic.';
+    }
+
+    winner.conclusion = conclusion;
+    return winner;
+}
+
+function createPieChart(data) {
+    const ctx = document.getElementById('requestsPieChart');
+    if (!ctx) {
+        console.error('Canvas element for pie chart not found');
+        return;
+    }
+
+    console.log('Creating pie chart with data:', data.xel.requests, data.express.requests);  // Debug
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['XEL', 'Express.js'],
+            datasets: [{
+                data: [data.xel.requests, data.express.requests],
+                backgroundColor: ['rgba(54, 162, 235, 0.8)', 'rgba(75, 192, 192, 0.8)'],
+                borderColor: ['rgb(54, 162, 235)', 'rgb(75, 192, 192)'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Total Requests Handled During Attack',
+                    color: 'white',
+                    font: { size: 16 }
+                },
+                legend: {
+                    labels: { color: 'white', font: { size: 14 } }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.label}: ${context.parsed.toLocaleString()} requests`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function createBarChart(data) {
+    const ctx = document.getElementById('latencyChart');
+    if (!ctx) {
+        console.error('Canvas element for bar chart not found');
+        return;
+    }
+
+    console.log('Creating bar chart with data:', data.xel.latency_distribution, data.express.latency_distribution);  // Debug
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['50% of requests', '75% of requests', '90% of requests', '99% of requests'],
+            datasets: [{
+                label: 'XEL Response Time',
+                data: [
+                    (data.xel.latency_distribution.p50 / 1000).toFixed(2),
+                    (data.xel.latency_distribution.p75 / 1000).toFixed(2),
+                    (data.xel.latency_distribution.p90 / 1000).toFixed(2),
+                    (data.xel.latency_distribution.p99 / 1000).toFixed(2)
+                ],
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgb(54, 162, 235)',
+                borderWidth: 1
+            },
+            {
+                label: 'Express.js Response Time',
+                data: [
+                    (data.express.latency_distribution.p50 / 1000).toFixed(2),
+                    (data.express.latency_distribution.p75 / 1000).toFixed(2),
+                    (data.express.latency_distribution.p90 / 1000).toFixed(2),
+                    (data.express.latency_distribution.p99 / 1000).toFixed(2)
+                ],
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                borderColor: 'rgb(75, 192, 192)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Response Time During Attack',
+                    color: 'white',
+                    font: { size: 16 }
+                },
+                legend: {
+                    labels: { color: 'white', font: { size: 14 } }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.dataset.label}: ${context.parsed.y} ms`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Response Time (milliseconds)',
+                        color: 'white',
+                        font: { size: 14 }
+                    },
+                    ticks: {
+                        color: 'white',
+                        callback: function(value) { return value + ' ms'; }
+                    }
+                },
+                x: {
+                    ticks: { color: 'white', font: { size: 12 } }
+                }
+            }
+        }
+    });
+}
+    </script>
+</body>
+</html>

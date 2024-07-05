@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XEL Framework CSRF Prevention Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-image: url('https://example.com/space-background.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-appear {
+            animation: cardAppear 0.5s ease-out;
+        }
+        @keyframes cardAppear {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .input-focus {
+            transition: all 0.3s ease;
+        }
+        .input-focus:focus {
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+        }
+        .button-hover {
+            transition: all 0.3s ease;
+        }
+        .button-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        .shake {
+            animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <nav class="bg-gray-800 fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="/" class="text-white text-2xl font-bold flex items-center">
+                    <img src="/src/sources/images/chibi/sw_01.png" alt="Chibi hacker" class="w-8 h-8 mr-2">
+                    XEL
+                </a>
+                <a href="/" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Back to Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8 pt-20">
+        <h1 class="text-4xl font-bold mb-8 text-center text-blue-400 animate-fade-in">XEL Framework CSRF Prevention</h1>
+
+        <section class="mb-12 animate-fade-in" style="animation-delay: 0.2s;">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400 flex items-center">
+                <img src="/src/sources/images/chibi/sw_01.png" alt="Chibi hacker" class="w-6 h-6 mr-2">
+                Introduction to CSRF
+            </h2>
+            <p class="text-gray-300 mb-4">
+                Cross-Site Request Forgery (CSRF) is a type of attack that tricks the victim into submitting a malicious request. It inherits the identity and privileges of the victim to perform an undesired function on the victim's behalf.
+            </p>
+            <p class="text-gray-300 mb-4">
+                CSRF attacks exploit the trust that a site has in a user's browser. These attacks can result in unauthorized fund transfers, changed passwords, or data theft.
+            </p>
+        </section>
+
+        <section class="mb-12 animate-fade-in" style="animation-delay: 0.4s;">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400 flex items-center">
+                <img src="/src/sources/images/chibi/sw_01.png" alt="Chibi hacker" class="w-6 h-6 mr-2">
+                How CSRF Attacks Work
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-2 text-blue-400">1. User Authentication</h3>
+                    <p class="text-gray-300 mb-4">
+                        The attack begins when a user logs into a legitimate website and receives a session cookie.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-2 text-blue-400">2. Malicious Request</h3>
+                    <p class="text-gray-300 mb-4">
+                        The attacker tricks the user into clicking a link or loading a page that sends a forged request to the server.
+                    </p>
+                </div>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg mt-4">
+                <h3 class="text-xl font-bold mb-2 text-blue-400">Example of a CSRF Attack:</h3>
+                <code class="text-green-400">
+                    &lt;img src="http://bank.com/transfer?amount=1000&to=attacker" style="display:none" /&gt;
+                </code>
+                <p class="text-gray-300 mt-2">
+                    This hidden image tag, if placed on a malicious site, would attempt to transfer money when loaded in the victim's browser (if they're logged into their bank).
+                </p>
+            </div>
+        </section>
+
+        <section class="mb-12 animate-fade-in" style="animation-delay: 0.6s;">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400 flex items-center">
+                <img src="/src/sources/images/chibi/sw_01.png" alt="Chibi hacker" class="w-6 h-6 mr-2">
+                CSRF Prevention Demo
+            </h2>
+            
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h3 class="text-xl font-bold mb-4 text-blue-400">Transfer Form</h3>
+                <form id="main-form" class="space-y-4">
+                    <input type="text" id="amount" placeholder="Amount" name="amount" class="w-full p-2 bg-gray-700 rounded input-focus">
+                    <input type="text" id="recipient" placeholder="Recipient" name="recipient" class="w-full p-2 bg-gray-700 rounded input-focus">
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded button-hover">Transfer</button>
+                </form>
+            </div>
+        
+            <!-- Hidden Protected Form -->
+            <form id="protected-form" style="display: none;">
+                <input type="hidden" id="protected-amount" name="amount">
+                <input type="hidden" id="protected-recipient" name="recipient">
+            </form>
+        
+            <!-- Hidden Vulnerable Form -->
+            <form id="vulnerable-form" style="display: none;">
+                <input type="hidden" id="vulnerable-amount" name="amount">
+                <input type="hidden" id="vulnerable-recipient" name="recipient">
+            </form>
+        
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                <div id="protected-output" class="p-4 bg-gray-700 rounded"></div>
+                <div id="vulnerable-output" class="p-4 bg-gray-700 rounded"></div>
+            </div>
+        </section>
+
+        <section class="mb-12 animate-fade-in" style="animation-delay: 0.8s;">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400 flex items-center">
+                <img src="/src/sources/images/chibi/sw_01.png" alt="Chibi hacker" class="w-6 h-6 mr-2">
+                Tips for Preventing CSRF Attacks
+            </h2>
+            <ul class="list-disc list-inside text-gray-300">
+                <li>Use anti-CSRF tokens for each user session</li>
+                <li>Implement the Same-Site cookie attribute</li>
+                <li>Check the Referer header on sensitive requests</li>
+                <li>Use custom request headers for APIs (e.g., X-Requested-With)</li>
+                <li>Implement re-authentication for sensitive actions</li>
+            </ul>
+        </section>
+    </div>
+
+    <footer class="bg-gray-800 text-center py-4 mt-12">
+        <p class="text-gray-300">© 2024 XEL Library. All rights reserved.</p>
+    </footer>
+
+    <audio id="success-sound" src="/src/sources/others/novurnurable.ogg"></audio>
+    <audio id="error-sound" src="/src/sources/others/vurnurable.ogg"></audio>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    async function getCsrfToken() {
+        const response = await fetch('http://localhost:9501/xel-csrf', {
+            headers: {
+                'Origin': 'http://localhost:9502'
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Failed to fetch CSRF token');
+        }
+        const data = await response.json();
+        return data['X-CSRF-Token'];
+    }
+
+    async function sendFormData(url, formData, csrfToken = null) {
+        const headers = {
+            'Origin': 'http://localhost:9502'
+        };
+        if (csrfToken) {
+            headers['X-CSRF-Token'] = csrfToken;
+        }
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: formData
+        });
+
+        return await response.json();
+    }
+
+    function createTransactionResult(data, isProtected) {
+        const chibiImage = isProtected ? 
+            '/src/sources/images/chibi/sw_01.png' : 
+            '/src/sources/images/chibi/sw_02.png';
+
+        if (isProtected) {
+            if (data.flag) {
+                return `
+                    <div class="bg-green-800 p-4 rounded-lg mt-4 card-appear flex items-start">
+                        <img src="${chibiImage}" alt="Chibi" class="w-12 h-12 mr-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Protected Transaction Result</h3>
+                            <p class="text-green-300">Status: ${data.message}</p>
+                            <p class="text-green-300">Amount: $${data.data.amount}</p>
+                            <p class="text-green-300">Recipient: ${data.data.recipient}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="bg-red-800 p-4 rounded-lg mt-4 card-appear flex items-start">
+                        <img src="${chibiImage}" alt="Chibi" class="w-12 h-12 mr-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Protected Transaction Result</h3>
+                            <p class="text-red-300">Error: ${data.message || 'Unknown error'}</p>
+                        </div>
+                    </div>
+                `;
+            }
+        } else {
+            return `
+                <div class="bg-red-800 p-4 rounded-lg mt-4 card-appear flex items-start">
+                    <img src="${chibiImage}" alt="Chibi" class="w-12 h-12 mr-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Vulnerable Transaction Result</h3>
+                        <p class="text-red-300">Error: ${data.error}</p>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    function playSound(isSuccess) {
+        const soundId = isSuccess ? 'success-sound' : 'error-sound';
+        document.getElementById(soundId).play();
+    }
+
+    async function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    const mainForm = document.getElementById('main-form');
+    const protectedForm = document.getElementById('protected-form');
+    const vulnerableForm = document.getElementById('vulnerable-form');
+    const protectedOutput = document.getElementById('protected-output');
+    const vulnerableOutput = document.getElementById('vulnerable-output');
+
+    mainForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        // Copy values to hidden forms
+        document.getElementById('protected-amount').value = document.getElementById('amount').value;
+        document.getElementById('protected-recipient').value = document.getElementById('recipient').value;
+        document.getElementById('vulnerable-amount').value = document.getElementById('amount').value;
+        document.getElementById('vulnerable-recipient').value = document.getElementById('recipient').value;
+
+        // Clear previous results
+        protectedOutput.innerHTML = '<div class="text-white">Processing...</div>';
+        vulnerableOutput.innerHTML = '<div class="text-white">Processing...</div>';
+
+        // Submit protected form
+        try {
+            const csrfToken = await getCsrfToken();
+            const protectedResponse = await sendFormData('http://localhost:9501/transfer/protected', new FormData(protectedForm), csrfToken);
+            await delay(2000); // 2-second delay
+            protectedOutput.innerHTML = createTransactionResult(protectedResponse, true);
+            playSound(protectedResponse.flag);
+            protectedOutput.classList.add('shake');
+            setTimeout(() => protectedOutput.classList.remove('shake'), 820);
+        } catch (error) {
+            await delay(2000); // 2-second delay
+            protectedOutput.innerHTML = createTransactionResult({ message: error.message }, true);
+            playSound(false);
+            protectedOutput.classList.add('shake');
+            setTimeout(() => protectedOutput.classList.remove('shake'), 820);
+        }
+
+        // Submit vulnerable form (without CSRF token)
+        try {
+            const vulnerableResponse = await sendFormData('http://localhost:9501/transfer/vulnerable', new FormData(vulnerableForm));
+            await delay(2000); // 2-second delay
+            vulnerableOutput.innerHTML = createTransactionResult(vulnerableResponse, false);
+            playSound(false);
+            vulnerableOutput.classList.add('shake');
+            setTimeout(() => vulnerableOutput.classList.remove('shake'), 820);
+        } catch (error) {
+            await delay(2000); // 2-second delay
+            vulnerableOutput.innerHTML = createTransactionResult({ error: error.message }, false);
+            playSound(false);
+            vulnerableOutput.classList.add('shake');
+            setTimeout(() => vulnerableOutput.classList.remove('shake'), 820);
+        }
+    });
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XEL Framework Playground</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/src/sources/css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'bounce-once': 'bounce 0.6s',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-900 text-white">
+    <nav class="bg-gray-800 fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="text-white text-2xl font-bold">XEL</a>
+                    <button id="sound-toggle" class="ml-4 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full flex items-center transition-colors duration-300">
+                        <i class="fas fa-volume-mute mr-2"></i>
+                        <span>Sound Off</span>
+                    </button>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                            <i class="fas fa-home mr-2"></i>Home
+                        </a>
+                        <a href="#about" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                            <i class="fas fa-info-circle mr-2"></i>About
+                        </a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="navbar-toggle" class="text-gray-400 hover:text-white focus:outline-none focus:text-white">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="navbar-menu" class="navbar-menu md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                    <i class="fas fa-home mr-2"></i>Home
+                </a>
+                <a href="#about" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                    <i class="fas fa-info-circle mr-2"></i>About
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8 pt-20">
+        <section class="hero bg-gray-800 rounded-lg shadow-lg p-4 sm:p-8 mb-12 animate-fade-in">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-blue-400 animate-pulse">
+                XEL Framework Playground
+            </h1>
+            <p class="text-lg sm:text-xl text-gray-300 mb-6">
+                Explore the future of web security with XEL Framework. Our cutting-edge solutions protect against XSS, CSRF, and DDoS attacks while optimizing performance. Inspired by the cyber world of Honkai: Star Rail, we bring you tools as powerful as the Stellaron Hunters themselves.
+            </p>
+            <a href="#features" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-block transition-colors duration-300">
+                Explore Features
+            </a>
+        </section>
+
+        <h2 class="text-3xl font-bold text-center text-yellow-400 pb-2 mb-8 border-b-2 border-yellow-400 inline-block mx-auto">
+            Features Offer
+        </h2>
+        
+        <section id="about" class="grid md:grid-cols-2 gap-6 mb-12">
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg animate-fade-in flex items-center cursor-pointer transition duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-xl active:scale-95" onclick="animateCard(this)">
+                <div class="flex-grow">
+                    <h3 class="text-xl font-bold mb-4 text-blue-400">XSS Prevention</h3>
+                    <p class="text-gray-300">Advanced cross-site scripting protection using gemstone sub-process, enabled by default.</p>
+                </div>
+                <img src="/src/sources/images/chibi/sw_01.png" alt="XSS Prevention Chibi" class="w-24 h-24 object-contain ml-4">
+            </div>
+            
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg animate-fade-in flex items-center cursor-pointer transition duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-xl active:scale-95" onclick="animateCard(this)">
+                <div class="flex-grow">
+                    <h3 class="text-xl font-bold mb-4 text-green-400">High Performance Server</h3>
+                    <p class="text-gray-300">Coroutine server at the language level for optimal speed and efficiency.</p>
+                </div>
+                <img src="/src/sources/images/chibi/rm_1.png" alt="High Performance Chibi" class="w-24 h-24 object-contain ml-4">
+            </div>
+            
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg animate-fade-in flex items-center cursor-pointer transition duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-xl active:scale-95" onclick="animateCard(this)">
+                <div class="flex-grow">
+                    <h3 class="text-xl font-bold mb-4 text-purple-400">CSRF Protection</h3>
+                    <p class="text-gray-300">Robust mechanisms to safeguard against cross-site request forgery attacks.</p>
+                </div>
+                <img src="/src/sources/images/chibi/tp_1.png" alt="CSRF Protection Chibi" class="w-24 h-24 object-contain ml-4">
+            </div>
+            
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg animate-fade-in flex items-center cursor-pointer transition duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-xl active:scale-95" onclick="animateCard(this)">
+                <div class="flex-grow">
+                    <h3 class="text-xl font-bold mb-4 text-red-400">DDoS Reduction</h3>
+                    <p class="text-gray-300">Mitigation of distributed denial-of-service attacks using gemstone sub-process.</p>
+                </div>
+                <img src="/src/sources/images/chibi/hm_1.png" alt="DDoS Reduction Chibi" class="w-24 h-24 object-contain ml-4">
+            </div>
+        </section>
+
+       <h2 class="text-3xl font-bold text-center text-yellow-400 pb-2 mb-8 border-b-2 border-yellow-400 inline-block mx-auto">
+            How to Use This Demo
+        </h2>
+
+        <div class="bg-gray-800 rounded-lg shadow-lg p-6 mb-12">
+            <div class="flex overflow-x-auto space-x-4 mb-6 pb-2" id="demo-tabs">
+                <button class="px-4 py-2 text-sm font-medium rounded-md bg-blue-500 text-white" data-tab="select">1. Select</button>
+                <button class="px-4 py-2 text-sm font-medium rounded-md bg-gray-700 text-white" data-tab="explore">2. Explore</button>
+                <button class="px-4 py-2 text-sm font-medium rounded-md bg-gray-700 text-white" data-tab="analyze">3. Analyze</button>
+                <button class="px-4 py-2 text-sm font-medium rounded-md bg-gray-700 text-white" data-tab="next">4. Next Steps</button>
+            </div>
+
+            <div id="demo-content">
+                <div class="demo-step active flex items-center" id="select">
+                    <div class="flex-grow">
+                        <h3 class="text-xl font-bold mb-4 text-blue-400">1. Select a Feature</h3>
+                        <p class="text-gray-300">Choose from XSS Prevention, Performance Benchmark, CSRF Protection, or DDoS Defense to explore each feature in depth.</p>
+                    </div>
+                    <img src="/src/sources/images/chibi/sw_02.png" alt="Select Feature Chibi" class="w-24 h-24 object-contain ml-4">
+                </div>
+                <div class="demo-step hidden flex items-center" id="explore">
+                    <div class="flex-grow">
+                        <h3 class="text-xl font-bold mb-4 text-green-400">2. Explore the Feature</h3>
+                        <p class="text-gray-300">Read the explanation, follow interactive instructions, and observe how XEL Framework responds to potential threats.</p>
+                    </div>
+                    <img src="/src/sources/images/chibi/rm_2.png" alt="Explore Feature Chibi" class="w-24 h-24 object-contain ml-4">
+                </div>
+                <div class="demo-step hidden flex items-center" id="analyze">
+                    <div class="flex-grow">
+                        <h3 class="text-xl font-bold mb-4 text-purple-400">3. Analyze Results</h3>
+                        <p class="text-gray-300">Review the effectiveness of each security measure and compare XEL Framework's approach to traditional methods.</p>
+                    </div>
+                    <img src="/src/sources/images/chibi/tp_2.png" alt="Analyze Results Chibi" class="w-24 h-24 object-contain ml-4">
+                </div>
+                <div class="demo-step hidden flex items-center" id="next">
+                    <div class="flex-grow">
+                        <h3 class="text-xl font-bold mb-4 text-red-400">4. Next Steps</h3>
+                        <p class="text-gray-300">Check our documentation, try integrating XEL Framework in your projects, and join our community forum for support.</p>
+                    </div>
+                    <img src="/src/sources/images/chibi/hm_2.png" alt="Next Steps Chibi" class="w-24 h-24 object-contain ml-4">
+                </div>
+            </div>
+        </div>
+
+
+        <h2 class="text-3xl font-bold text-center text-yellow-400 pb-2 mb-8 border-b-2 border-yellow-400 inline-block mx-auto">
+            Try Demo Test
+        </h2>
+
+        <div id="features" class="grid sm:grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+           
+            <div class="card bg-gray-800 p-6 rounded-lg shadow-lg animate-fade-in" style="animation-delay: 0.2s;">
+                <img src="/src/sources/images/silverwolf_card2.webp" alt="Silver Wolf" class="w-full h-64 object-cover rounded-lg mb-4 transform transition-transform duration-500 hover:scale-105">
+                <h2 class="text-2xl font-bold mb-2 text-blue-400">Silver Wolf's Gemstone XSS Prevention</h2>
+                <p class="text-gray-300 mb-4">Explore the cutting-edge XSS prevention techniques, as sharp and effective as Silver Wolf's hacking skills.</p>
+                <a href="/xss" class="feature-link bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-block transition-colors duration-300">Test XSS Prevention</a>
+            </div>
+            <div class="card bg-gray-800 p-6 rounded-lg shadow-lg animate-fade-in" style="animation-delay: 0.4s;">
+                <img src="/src/sources/images/ruanmei_card.webp" alt="Ruan Mei" class="w-full h-64 object-cover rounded-lg mb-4 transform transition-transform duration-500 hover:scale-105">
+                <h2 class="text-2xl font-bold mb-2 text-green-400">Ruan Mei Performance Benchmark</h2>
+                <p class="text-gray-300 mb-4">Analyze the performance of our library with precision that would make even Mei proud.</p>
+                <a href="/benchmark" class="feature-link bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-block transition-colors duration-300">Run Benchmark</a>
+            </div>
+            <div class="card bg-gray-800 p-6 rounded-lg shadow-lg animate-fade-in" style="animation-delay: 0.6s;">
+                <img src="/src/sources/images/topaz_card.webp" alt="Topaz" class="w-full h-64 object-cover rounded-lg mb-4 transform transition-transform duration-500 hover:scale-105">
+                <h2 class="text-2xl font-bold mb-2 text-purple-400">Topaz Gemstone CSRF Prevention</h2>
+                <p class="text-gray-300 mb-4">Protect your web applications from CSRF attacks with the elegance and precision of Kafka's blade dance.</p>
+                <a href="/csrf" class="feature-link bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded inline-block transition-colors duration-300">Test CSRF Protection</a>
+            </div>
+            <div class="card bg-gray-800 p-6 rounded-lg shadow-lg animate-fade-in" style="animation-delay: 0.8s;">
+                <img src="/src/sources/images/murata_card.webp" alt="Himeko" class="w-full h-64 object-cover rounded-lg mb-4 transform transition-transform duration-500 hover:scale-105">
+                <h2 class="text-2xl font-bold mb-2 text-red-400">Himeko's Gemstone DDoS Reduction</h2>
+                <p class="text-gray-300 mb-4">Withstand the onslaught of DDoS attacks with the resilience of Himeko's unwavering determination.</p>
+                <a href="/ddos" class="feature-link bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded inline-block transition-colors duration-300">Simulate DDoS Defense</a>            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 text-center py-4 mt-12">
+        <p class="text-gray-300">© 2024 XEL Library.  All rights reserved.</p>
+    </footer>
+
+    <audio id="background-music" loop>
+        <source src="/src/sources/others/sw.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const soundToggle = document.getElementById('sound-toggle');
+            const backgroundMusic = document.getElementById('background-music');
+            let isMusicPlaying = false;
+    
+            soundToggle.addEventListener('click', function() {
+                if (isMusicPlaying) {
+                    backgroundMusic.pause();
+                    soundToggle.innerHTML = '<i class="fas fa-volume-mute mr-2"></i><span>Sound Off</span>';
+                    soundToggle.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                    soundToggle.classList.add('bg-gray-700', 'hover:bg-gray-600');
+                } else {
+                    backgroundMusic.play();
+                    soundToggle.innerHTML = '<i class="fas fa-volume-up mr-2"></i><span>Sound On</span>';
+                    soundToggle.classList.remove('bg-gray-700', 'hover:bg-gray-600');
+                    soundToggle.classList.add('bg-blue-500', 'hover:bg-blue-600');
+                }
+                isMusicPlaying = !isMusicPlaying;
+            });
+        });
+    </script>
+
+    <script>
+        document.getElementById('navbar-toggle').addEventListener('click', function() {
+            document.getElementById('navbar-menu').classList.toggle('active');
+        });
+    </script>
+
+    <script>
+        document.getElementById('demo-tabs').addEventListener('click', function(e) {
+            if(e.target.dataset.tab) {
+                // Hide all steps
+                document.querySelectorAll('.demo-step').forEach(step => step.classList.add('hidden'));
+                // Show the selected step
+                document.getElementById(e.target.dataset.tab).classList.remove('hidden');
+                // Update button styles
+                document.querySelectorAll('#demo-tabs button').forEach(btn => btn.classList.replace('bg-blue-500', 'bg-gray-700'));
+                e.target.classList.replace('bg-gray-700', 'bg-blue-500');
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const featureLinks = document.querySelectorAll('.feature-link');
+            
+            featureLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetUrl = this.getAttribute('href');
+                    const featureName = this.textContent;
+                    
+                    // Create loading overlay
+                    const overlay = document.createElement('div');
+                    overlay.style.position = 'fixed';
+                    overlay.style.top = '0';
+                    overlay.style.left = '0';
+                    overlay.style.width = '100%';
+                    overlay.style.height = '100%';
+                    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                    overlay.style.display = 'flex';
+                    overlay.style.flexDirection = 'column';
+                    overlay.style.justifyContent = 'center';
+                    overlay.style.alignItems = 'center';
+                    overlay.style.zIndex = '9999';
+                    
+                    // Create loading spinner
+                    const spinner = document.createElement('div');
+                    spinner.className = 'loader';
+                    spinner.style.border = '4px solid #f3f3f3';
+                    spinner.style.borderTop = '4px solid #3498db';
+                    spinner.style.borderRadius = '50%';
+                    spinner.style.width = '50px';
+                    spinner.style.height = '50px';
+                    spinner.style.animation = 'spin 1s linear infinite';
+                    
+                    // Create loading text
+                    const loadingText = document.createElement('p');
+                    loadingText.textContent = `Loading ${featureName}...`;
+                    loadingText.style.color = '#ffffff';
+                    loadingText.style.marginTop = '20px';
+                    loadingText.style.fontSize = '18px';
+                    
+                    // Create chibi image
+                    const chibiImage = document.createElement('img');
+                    chibiImage.src = '/src/sources/images/chibi/sw_02.png'; // Update this path as needed
+                    chibiImage.alt = 'Loading Chibi';
+                    chibiImage.style.width = '100px';
+                    chibiImage.style.marginTop = '20px';
+                    
+                    // Add elements to overlay
+                    overlay.appendChild(spinner);
+                    overlay.appendChild(loadingText);
+                    overlay.appendChild(chibiImage);
+                    
+                    // Add overlay to body
+                    document.body.appendChild(overlay);
+                    
+                    // Redirect after a delay
+                    setTimeout(() => {
+                        window.location.href = targetUrl;
+                    }, 2000); // 2 second delay, adjust as needed
+                });
+            });
+        });
+        
+        // Add keyframe animation for spinner
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    <script>
+        function animateCard(card) {
+            card.classList.add('animate-bounce-once');
+            setTimeout(() => {
+                card.classList.remove('animate-bounce-once');
+            }, 600);
+        }
+    </script>
+</body>
+</html>

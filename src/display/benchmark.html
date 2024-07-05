@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XEL Framework Benchmark</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-image: url('https://example.com/space-background.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <nav class="bg-gray-800 fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="/" class="text-white text-2xl font-bold">XEL</a>
+                <a href="/" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Back to Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8 pt-20">
+        <h1 class="text-4xl font-bold mb-8 text-center text-blue-400 animate-fade-in">XEL Framework Benchmark</h1>
+
+        <section class="mb-12 animate-fade-in" style="animation-delay: 0.2s;">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400">Introduction to Benchmark</h2>
+            <p class="text-gray-300 mb-4">
+                This benchmark test utilizes wrk, a modern HTTP benchmarking tool capable of generating significant load when run on a single multi-core CPU. wrk uses the scalable event notification mechanisms epoll on Linux and kqueue on FreeBSD and macOS. It combines a multithreaded design with scalable event notification systems to efficiently stress HTTP servers across a wide range of scenarios.
+            </p>
+        </section>
+
+        <section class="mb-12 animate-fade-in" style="animation-delay: 0.4s;">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400">Benchmark Types</h2>
+            <p class="text-gray-300 mb-4">
+                This benchmark test consists of two distinct types to evaluate different aspects of server performance:
+            </p>
+            <div class="bg-gray-800 p-4 rounded-lg mb-4">
+                <h3 class="text-xl font-bold mb-2 text-blue-400">1. Hello World Benchmark:</h3>
+                <p class="text-gray-300 mb-2">
+                    Tests the server's ability to handle simple requests and responses. It measures the raw performance of serving a basic "Hello World" message.
+                </p>
+                <h4 class="text-lg font-semibold mb-1 text-blue-300">Example Response:</h4>
+                <pre class="bg-gray-900 p-2 rounded overflow-x-auto"><code class="text-green-400">
+        {
+          "message": "Hello, World!"
+        }
+                </code></pre>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg">
+                <h3 class="text-xl font-bold mb-2 text-blue-400">2. Query Benchmark:</h3>
+                <p class="text-gray-300 mb-2">
+                    Evaluates the server's performance when processing database queries. This test measures how efficiently the server handles data retrieval and processing tasks, such as fetching and returning user data.
+                </p>
+                <h4 class="text-lg font-semibold mb-1 text-blue-300">Example Response:</h4>
+                <pre class="bg-gray-900 p-2 rounded overflow-x-auto"><code class="text-green-400">
+        {
+          "users": [
+            {
+              "id": 1,
+              "name": "John Doe",
+              "email": "john@example.com"
+            },
+            {
+              "id": 2,
+              "name": "Jane Smith",
+              "email": "jane@example.com"
+            },
+            {
+              "id": 3,
+              "name": "Bob Johnson",
+              "email": "bob@example.com"
+            }
+          ]
+        }
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="mb-12 animate-fade-in" style="animation-delay: 0.6s;">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400">Framework Comparison: XEL vs Express.js</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-4 text-blue-400">XEL Framework</h3>
+                    <ul class="list-disc list-inside text-gray-300">
+                        <li>Written in C and designed for PHP, providing high-performance asynchronous I/O</li>
+                        <li>Provides coroutine-based concurrency, allowing for easier synchronous-style code</li>
+                        <li>Has lower memory footprint compared to Node.js</li>
+                        <li>Optimized server performace with coroutine style server </li>
+                    </ul>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-4 text-green-400">Express.js</h3>
+                    <ul class="list-disc list-inside text-gray-300">
+                        <li>JavaScript runtime built on Chrome's V8 engine, allowing JavaScript on the server-side
+                        </li>
+                        <li>Non-blocking, event-driven architecture suitable for real-time applications</li>
+                        <li>Extensive package ecosystem (npm) with a vast number of libraries and tools</li>
+                        <li>Single Thread server style for I/O-bound tasks </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <div class="container mx-auto px-4 py-8">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400 animate-fade-in" style="animation-delay: 0.8s;">XEL vs Express.js Benchmark Results</h2>
+            <button id="runBenchmark" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-4 animate-fade-in" style="animation-delay: 1s;">
+                Run Benchmark
+            </button>
+            <div id="loading" class="hidden animate-fade-in" style="animation-delay: 1.2s;">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                <p class="mt-2 text-blue-300">Running benchmark...</p>
+            </div>
+            <div id="results" class="hidden">
+                <div class="mb-4 animate-fade-in" style="animation-delay: 1.4s;">
+                    <nav class="flex border-b border-gray-700">
+                        <button class="tab-button text-gray-400 py-4 px-6 block hover:text-blue-400 focus:outline-none" data-tab="overview">
+                            Overview
+                        </button>
+                        <button class="tab-button text-gray-400 py-4 px-6 block hover:text-blue-400 focus:outline-none" data-tab="latency">
+                            Latency
+                        </button>
+                        <button class="tab-button text-gray-400 py-4 px-6 block hover:text-blue-400 focus:outline-none" data-tab="chart">
+                            Chart
+                        </button>
+                    </nav>
+                </div>
+                <div id="overview" class="tab-content animate-fade-in" style="animation-delay: 1.6s;">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-gray-800 shadow rounded-lg p-4">
+                            <h3 class="text-xl font-semibold mb-2 text-blue-400">XEL Framework</h3>
+                            <p id="xelRequestsPerSec" class="text-lg font-bold text-yellow-400"></p>
+                            <p id="xelTotalRequests" class="text-lg font-bold text-yellow-400"></p>
+                            <p id="xelDuration" class="text-lg font-bold text-yellow-400"></p>
+                        </div>
+                        <div class="bg-gray-800 shadow rounded-lg p-4">
+                            <h3 class="text-xl font-semibold mb-2 text-green-400">Express.js</h3>
+                            <p id="expressRequestsPerSec" class="text-lg font-bold text-yellow-400"></p>
+                            <p id="expressTotalRequests" class="text-lg font-bold text-yellow-400"></p>
+                            <p id="expressDuration" class="text-lg font-bold text-yellow-400"></p>
+                        </div>
+                    </div>
+                    <div id="winner" class="mt-4 text-center text-2xl font-bold"></div>
+                </div>
+                <div id="latency" class="tab-content hidden animate-fade-in" style="animation-delay: 1.6s;">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-gray-800 shadow rounded-lg p-4">
+                            <h3 class="text-xl font-semibold mb-2 text-blue-400">XEL Framework</h3>
+                            <p id="xelMinLatency" class="text-lg font-bold text-yellow-400"></p>
+                            <p id="xelMaxLatency" class="text-lg font-bold text-yellow-400"></p>
+                            <p id="xelMeanLatency" class="text-lg font-bold text-yellow-400"></p>
+                            <p id="xelLatencyStdev" class="text-lg font-bold text-yellow-400"></p>
+                        </div>
+                        <div class="bg-gray-800 shadow rounded-lg p-4">
+                            <h3 class="text-xl font-semibold mb-2 text-green-400">Express.js</h3>
+                            <p id="expressMinLatency" class="text-lg font-bold text-yellow-400"></p>
+                            <p id="expressMaxLatency" class="text-lg font-bold text-yellow-400"></p>
+                            <p id="expressMeanLatency" class="text-lg font-bold text-yellow-400"></p>
+                            <p id="expressLatencyStdev" class="text-lg font-bold text-yellow-400"></p>
+                        </div>
+                    </div>
+                </div>
+                <div id="chart" class="tab-content hidden animate-fade-in" style="animation-delay: 1.6s;">
+                    <canvas id="latencyChart"></canvas>
+                </div>
+            </div>
+        </div>
+    
+        <script>
+                document.getElementById('runBenchmark').addEventListener('click', function() {
+                    this.disabled = true;
+                    document.getElementById('loading').classList.remove('hidden');
+                    document.getElementById('results').classList.add('hidden');
+                    
+                    fetch('http://localhost:9502/run-benchmark')
+                        .then(response => response.json())
+                        .then(data => {
+                            this.disabled = false;
+                            document.getElementById('loading').classList.add('hidden');
+                            document.getElementById('results').classList.remove('hidden');
+                            displayResults(data);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            this.disabled = false;
+                            document.getElementById('loading').classList.add('hidden');
+                            alert('An error occurred while running the benchmark.');
+                        });
+    });
+
+    function displayResults(data) {
+        // Overview tab
+        document.getElementById('xelRequestsPerSec').textContent = `Requests/sec: ${data.xel.requests_per_sec.toFixed(2)}`;
+        document.getElementById('xelTotalRequests').textContent = `Total Requests: ${data.xel.requests}`;
+        document.getElementById('xelDuration').textContent = `Duration: ${(data.xel.duration_in_microseconds / 1000000).toFixed(2)} s`;
+
+        document.getElementById('expressRequestsPerSec').textContent = `Requests/sec: ${data.express.requests_per_sec.toFixed(2)}`;
+        document.getElementById('expressTotalRequests').textContent = `Total Requests: ${data.express.requests}`;
+        document.getElementById('expressDuration').textContent = `Duration: ${(data.express.duration_in_microseconds / 1000000).toFixed(2)} s`;
+
+        // Latency tab - updated to show only 2 decimal places
+        document.getElementById('xelMinLatency').textContent = `Min Latency: ${(data.xel.latency_min / 1000).toFixed(2)} ms`;
+        document.getElementById('xelMaxLatency').textContent = `Max Latency: ${(data.xel.latency_max / 1000).toFixed(2)} ms`;
+        document.getElementById('xelMeanLatency').textContent = `Mean Latency: ${(data.xel.latency_mean / 1000).toFixed(2)} ms`;
+        document.getElementById('xelLatencyStdev').textContent = `Latency Stdev: ${(data.xel.latency_stdev / 1000).toFixed(2)} ms`;
+
+        document.getElementById('expressMinLatency').textContent = `Min Latency: ${(data.express.latency_min / 1000).toFixed(2)} ms`;
+        document.getElementById('expressMaxLatency').textContent = `Max Latency: ${(data.express.latency_max / 1000).toFixed(2)} ms`;
+        document.getElementById('expressMeanLatency').textContent = `Mean Latency: ${(data.express.latency_mean / 1000).toFixed(2)} ms`;
+        document.getElementById('expressLatencyStdev').textContent = `Latency Stdev: ${(data.express.latency_stdev / 1000).toFixed(2)} ms`;
+
+        // Determine the winner
+        const winner = determineWinner(data);
+        document.getElementById('winner').innerHTML = `Winner: <span class="text-${winner.color}-400">${winner.framework}</span>`;
+
+        // Chart tab - updated to show latency in milliseconds with 2 decimal places
+        const ctx = document.getElementById('latencyChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['50%', '75%', '90%', '99%'],
+                datasets: [{
+                    label: 'XEL Latency Distribution',
+                    data: [
+                        (data.xel.latency_distribution.p50 / 1000).toFixed(2),
+                        (data.xel.latency_distribution.p75 / 1000).toFixed(2),
+                        (data.xel.latency_distribution.p90 / 1000).toFixed(2),
+                        (data.xel.latency_distribution.p99 / 1000).toFixed(2)
+                    ],
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgb(54, 162, 235)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Express.js Latency Distribution',
+                    data: [
+                        (data.express.latency_distribution.p50 / 1000).toFixed(2),
+                        (data.express.latency_distribution.p75 / 1000).toFixed(2),
+                        (data.express.latency_distribution.p90 / 1000).toFixed(2),
+                        (data.express.latency_distribution.p99 / 1000).toFixed(2)
+                    ],
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgb(75, 192, 192)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Latency (ms)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function determineWinner(data) {
+        let xelScore = 0;
+        let expressScore = 0;
+
+        // Compare RPS
+        if (data.xel.requests_per_sec > data.express.requests_per_sec) {
+            xelScore++;
+        } else {
+            expressScore++;
+        }
+
+        // Compare total requests
+        if (data.xel.requests > data.express.requests) {
+            xelScore++;
+        } else {
+            expressScore++;
+        }
+
+        // Compare mean latency (lower is better)
+        if (data.xel.latency_mean < data.express.latency_mean) {
+            xelScore++;
+        } else {
+            expressScore++;
+        }
+
+        if (xelScore > expressScore) {
+            return { framework: 'XEL', color: 'blue' };
+        } else if (expressScore > xelScore) {
+            return { framework: 'Express.js', color: 'green' };
+        } else {
+            return { framework: 'Tie', color: 'yellow' };
+        }
+    }
+
+    // Tab functionality (unchanged)
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', () => {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('text-blue-400', 'border-b-2', 'border-blue-400');
+            });
+            document.getElementById(button.dataset.tab).classList.remove('hidden');
+            button.classList.add('text-blue-400', 'border-b-2', 'border-blue-400');
+        });
+    });
+</script>
+
+    <footer class="bg-gray-800 text-center py-4 mt-12">
+        <p class="text-gray-300">© 2024 XEL Library. All rights reserved.</p>
+    </footer>
+</body>
+</html>

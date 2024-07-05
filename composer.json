@@ -1,0 +1,13 @@
+{
+    "name": "fpc/project",
+    "type": "library",
+    "authors": [
+        {
+            "name": "bxel07",
+            "email": "yogipratama.ut@gmail.com"
+        }
+    ],
+    "require": {
+        "swoole/ide-helper": "^5.1"
+    }
+}
