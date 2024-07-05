@@ -6,14 +6,14 @@ use Swoole\Http\Response;
 use function Swoole\Coroutine\{go,defer};
 
 
-$server = new Server("0.0.0.0", 9502);
+$server = new Server("localhost", 9502);
 $server->set([
     'enable_static_handler' => true,
     'document_root' => __DIR__
 ]);
 
 $server->on("start", function () {
-    echo "Swoole http server is started at http://0.0.0.0:9502\n";
+    echo "Swoole http server is started at http://localhost:9502\n";
 });
 
 $server->on("request", function (Request $request, Response $response) {
