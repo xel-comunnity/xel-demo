@@ -1,26 +1,26 @@
 Running 15s test @ http://localhost:9501/users
   4 threads and 1000 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency   358.03ms  195.42ms   1.65s    78.60%
-    Req/Sec   680.63    318.42     1.69k    66.10%
-  40483 requests in 15.10s, 25.64MB read
-  Socket errors: connect 0, read 0, write 0, timeout 333
-Requests/sec:   2680.14
-Transfer/sec:      1.70MB
+    Latency   145.55ms   51.04ms 851.28ms   84.29%
+    Req/Sec     1.66k   376.14     2.61k    72.00%
+  99100 requests in 15.07s, 62.75MB read
+  Socket errors: connect 0, read 0, write 0, timeout 334
+Requests/sec:   6574.88
+Transfer/sec:      4.16MB
 {
-  "requests": 40483,
-  "duration_in_microseconds": 15104803,
-  "bytes": 26880712,
-  "requests_per_sec": 2680.14,
-  "bytes_transfer_per_sec": 1779613.54,
-  "latency_min": 2621.00,
-  "latency_max": 1650739.00,
-  "latency_mean": 358028.21,
-  "latency_stdev": 195424.40,
+  "requests": 99100,
+  "duration_in_microseconds": 15072508,
+  "bytes": 65802400,
+  "requests_per_sec": 6574.88,
+  "bytes_transfer_per_sec": 4365723.34,
+  "latency_min": 5708.00,
+  "latency_max": 851282.00,
+  "latency_mean": 145551.30,
+  "latency_stdev": 51041.22,
   "latency_distribution": {
-    "p50": 296995.00,
-    "p75": 422059.00,
-    "p90": 651576.00,
-    "p99": 985037.00
+    "p50": 137538.00,
+    "p75": 166014.00,
+    "p90": 189341.00,
+    "p99": 355084.00
   }
 }
